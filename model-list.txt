@@ -1,0 +1,770 @@
+2022-3-1	 ada		 ['completion']
+2022-3-1	 babbage		 ['completion']
+2022-3-1	 curie		 ['completion']
+2022-3-1	 davinci		 ['completion']
+2023-3-9	 gpt-35-turbo-0301		 ['inference', 'completion', 'chat_completion', 'scale_types']
+2023-6-19	 gpt-35-turbo-0613		 ['inference', 'chat_completion', 'scale_types']
+2023-9-14	 gpt-35-turbo-instruct-0914		 ['inference', 'completion']
+2023-6-19	 gpt-35-turbo-16k-0613		 ['inference', 'chat_completion', 'scale_types']
+2023-3-21	 gpt-4-0314		 ['inference', 'chat_completion']
+2023-6-19	 gpt-4-0613		 ['inference', 'chat_completion', 'scale_types']
+2023-3-21	 gpt-4-32k-0314		 ['inference', 'chat_completion']
+2023-6-19	 gpt-4-32k-0613		 ['inference', 'chat_completion', 'scale_types']
+2022-9-30	 text-davinci-003		 ['inference', 'completion']
+2022-5-20	 text-similarity-ada-001		 ['inference', 'embeddings']
+2022-5-20	 text-similarity-babbage-001		 ['inference', 'embeddings']
+2022-5-20	 text-similarity-curie-001		 ['inference', 'embeddings']
+2022-5-20	 text-similarity-davinci-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-ada-doc-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-ada-query-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-babbage-doc-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-babbage-query-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-curie-doc-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-curie-query-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-davinci-doc-001		 ['inference', 'embeddings']
+2022-5-20	 text-search-davinci-query-001		 ['inference', 'embeddings']
+2022-5-20	 code-search-ada-code-001		 ['inference', 'embeddings']
+2022-5-20	 code-search-ada-text-001		 ['inference', 'embeddings']
+2022-5-20	 code-search-babbage-code-001		 ['inference', 'embeddings']
+2022-5-20	 code-search-babbage-text-001		 ['inference', 'embeddings']
+2023-2-2	 text-embedding-ada-002		 ['inference', 'embeddings']
+2023-4-3	 text-embedding-ada-002-2		 ['inference', 'embeddings', 'scale_types']
+2023-3-9	 gpt-35-turbo		 ['inference', 'completion', 'chat_completion', 'scale_types']
+2023-9-14	 gpt-35-turbo-instruct		 ['inference', 'completion']
+2023-6-19	 gpt-35-turbo-16k		 ['inference', 'chat_completion', 'scale_types']
+2023-3-21	 gpt-4		 ['inference', 'chat_completion']
+2023-3-21	 gpt-4-32k		 ['inference', 'chat_completion']
+2023-4-3	 text-embedding-ada-002		 ['inference', 'embeddings', 'scale_types']
+{
+  "data": [
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": false,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1720137600,
+        "inference": 1720137600
+      },
+      "id": "ada",
+      "status": "succeeded",
+      "created_at": 1646092800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": false,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1720137600,
+        "inference": 1720137600
+      },
+      "id": "babbage",
+      "status": "succeeded",
+      "created_at": 1646092800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": false,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1720137600,
+        "inference": 1720137600
+      },
+      "id": "curie",
+      "status": "succeeded",
+      "created_at": 1646092800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": false,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1720137600,
+        "inference": 1720137600
+      },
+      "id": "davinci",
+      "status": "succeeded",
+      "created_at": 1646092800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": true,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-35-turbo-0301",
+      "status": "succeeded",
+      "created_at": 1678320000,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1711843200,
+        "inference": 1711843200
+      },
+      "id": "gpt-35-turbo-0613",
+      "status": "succeeded",
+      "created_at": 1687132800,
+      "updated_at": 1687132800,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1727654400
+      },
+      "id": "gpt-35-turbo-instruct-0914",
+      "status": "succeeded",
+      "created_at": 1694649600,
+      "updated_at": 1694649600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1711843200
+      },
+      "id": "gpt-35-turbo-16k-0613",
+      "status": "succeeded",
+      "created_at": 1687132800,
+      "updated_at": 1687132800,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-4-0314",
+      "status": "succeeded",
+      "created_at": 1679356800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "fine_tune": 1735862400,
+        "inference": 1711843200
+      },
+      "id": "gpt-4-0613",
+      "status": "succeeded",
+      "created_at": 1687132800,
+      "updated_at": 1687132800,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-4-32k-0314",
+      "status": "succeeded",
+      "created_at": 1679356800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1711843200
+      },
+      "id": "gpt-4-32k-0613",
+      "status": "succeeded",
+      "created_at": 1687132800,
+      "updated_at": 1687132800,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-davinci-003",
+      "status": "succeeded",
+      "created_at": 1664496000,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-similarity-ada-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-similarity-babbage-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-similarity-curie-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-similarity-davinci-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-ada-doc-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-ada-query-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-babbage-doc-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-babbage-query-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-curie-doc-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-curie-query-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-davinci-doc-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "text-search-davinci-query-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "code-search-ada-code-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "code-search-ada-text-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "code-search-babbage-code-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "code-search-babbage-text-001",
+      "status": "succeeded",
+      "created_at": 1653004800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1738454400
+      },
+      "id": "text-embedding-ada-002",
+      "status": "succeeded",
+      "created_at": 1675296000,
+      "updated_at": 1675296000,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1743638400
+      },
+      "id": "text-embedding-ada-002-2",
+      "status": "succeeded",
+      "created_at": 1680480000,
+      "updated_at": 1680480000,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": true,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-35-turbo",
+      "status": "succeeded",
+      "created_at": 1678320000,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": true,
+        "chat_completion": false,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1727654400
+      },
+      "id": "gpt-35-turbo-instruct",
+      "status": "succeeded",
+      "created_at": 1694649600,
+      "updated_at": 1694649600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1711843200
+      },
+      "id": "gpt-35-turbo-16k",
+      "status": "succeeded",
+      "created_at": 1687132800,
+      "updated_at": 1687132800,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-4",
+      "status": "succeeded",
+      "created_at": 1679356800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": true,
+        "embeddings": false,
+        "scale_types": []
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1720137600
+      },
+      "id": "gpt-4-32k",
+      "status": "succeeded",
+      "created_at": 1679356800,
+      "updated_at": 1688601600,
+      "object": "model"
+    },
+    {
+      "capabilities": {
+        "fine_tune": false,
+        "inference": true,
+        "completion": false,
+        "chat_completion": false,
+        "embeddings": true,
+        "scale_types": [
+          "standard"
+        ]
+      },
+      "lifecycle_status": "generally-available",
+      "deprecation": {
+        "inference": 1743638400
+      },
+      "id": "text-embedding-ada-002",
+      "status": "succeeded",
+      "created_at": 1680480000,
+      "updated_at": 1680480000,
+      "object": "model"
+    }
+  ],
+  "object": "list"
+}
+
