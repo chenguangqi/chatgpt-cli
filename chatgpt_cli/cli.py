@@ -23,12 +23,6 @@ current_messages = []
 logger.addHandler(current_handler)
 
 
-openai.api_key = settings.get('openai', 'api_key', fallback=None)
-openai.api_type = settings.get('openai', 'api_type', fallback=None)
-openai.api_version = settings.get('openai', 'api_version', fallback=None)
-openai.azure_endpoint = settings.get('openai', 'azure_endpoint', fallback=None)
-
-
 usage = """\
 这是OpenAI的ChatGPT控制台程序，提供与用户的交互界面。
 用户可以输入提示词与ChatGPT交互。除了支持正常的提示词输入，它还支持以@字符开始的特殊命令。

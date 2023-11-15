@@ -2,11 +2,11 @@
 
 class Role:
 
-    def __init__(self, role_name='user'):
-        self.role_name = role_name
+    def __init__(self, name='user'):
+        self.name = name
 
     def message(self, content):
-        return {"role": f"{self.role_name}", "content": content}
+        return {"role": f"{self.name}", "content": content}
 
 
 Role.user = Role('user')
