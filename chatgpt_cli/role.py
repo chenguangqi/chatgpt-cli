@@ -1,6 +1,8 @@
 
-
 class Role:
+    user = None
+    assistant = None
+    system = None
 
     def __init__(self, name='user'):
         self.name = name
@@ -10,9 +12,5 @@ class Role:
 
 
 Role.user = Role('user')
-Role.assistant=Role('assistant')
+Role.assistant = Role('assistant')
 Role.system = Role('system')
-
-
-if __name__ == '__main__':
-    print(Role.user().message('abc'))
