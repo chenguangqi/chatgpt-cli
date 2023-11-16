@@ -5,11 +5,10 @@ Usage: openai-chat <message>
 
 import sys
 import docopt
-
 from openai import AzureOpenAI
 
-from .settings import settings
-from .role import Role
+from chatgpt_cli.settings import settings
+from chatgpt_cli.role import Role
 
 client = AzureOpenAI(
     api_key=settings.get('openai', 'api_key'),
@@ -18,12 +17,19 @@ client = AzureOpenAI(
 )
 
 
-def chat(*message, model='gpt-35-turbo-16k'):
+def chat(*messages, model='gpt-35-turbo-16k'):
     completion = client.chat.completions.create(
         model=model,
-        messages=message
+        messages=messages
     )
     return completion
+
+
+def show_completion(completion):
+    completionMessage = completion.choices[0].message
+    print(completionMessage.role,
+          f'({completion.usage.prompt_tokens},{completion.usage.completion_tokens},{completion.usage.total_tokens}):',
+          completionMessage.content)
 
 
 def main():
@@ -31,10 +37,8 @@ def main():
     args = docopt.docopt(__doc__)
     prompt = sys.argv[1]
     if prompt:
-
         completion = chat(Role.user.message(prompt))
-        completionMessage = completion.choices[0].message
-        print(completionMessage.role, f'({completion.usage.prompt_tokens},{completion.usage.completion_tokens},{completion.usage.total_tokens}):', completionMessage.content)
+        show_completion(completion)
     else:
         pass
 
