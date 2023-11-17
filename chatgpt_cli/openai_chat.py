@@ -7,11 +7,14 @@ AZURE_OPENAI_ENDPOINT
 
 Usage: openai-chat <message>
 """
-
 import sys
 import docopt
 from chatgpt_cli.role import Role
 from chatgpt_cli.client import client
+from chatgpt_cli.settings import get_logger
+
+
+logger = get_logger(__name__, 'openai-chat.log')
 
 
 def chat(messages, model='gpt-35-turbo-16k'):
@@ -30,6 +33,7 @@ def show_completion(completion):
     if completion:
         completionMessage = completion.choices[0].message
         print(completionMessage.role, f'({completion.usage.total_tokens}):\n{completionMessage.content}')
+        logger.info("\nA:\n%s %s", completionMessage.role, f'({completion.usage.total_tokens}):\n{completionMessage.content}')
 
 
 def main():
@@ -38,6 +42,7 @@ def main():
     prompt = sys.argv[1]
     if prompt:
         completion = chat([Role.user.message(prompt)])
+        logger.info("Q:%s ", prompt)
         show_completion(completion)
     else:
         pass

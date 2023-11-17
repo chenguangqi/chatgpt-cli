@@ -16,7 +16,6 @@ Usage: chatgpt-cli
 
 """
 import time
-import logging
 import openai
 import docopt
 
@@ -24,20 +23,13 @@ from .settings import *
 from .role import Role
 from chatgpt_cli.client import client
 
-logger = logging.Logger(__name__, logging.INFO)
 
-# logger.addHandler(logging.StreamHandler(sys.stdout))
-logfile = settings.get('log', 'logfile', fallback='chat.log')
-fileHandler = logging.FileHandler(logfile, encoding='UTF-8')
-fileHandler.setFormatter(logging.Formatter())
+logger = get_logger(__name__, 'chatgpt-cli.log')
 
-current_handler = fileHandler
 current_session = 'default'
 current_count = 0
 current_file_content = ''
 current_messages = []
-
-logger.addHandler(current_handler)
 
 
 def list_modes():

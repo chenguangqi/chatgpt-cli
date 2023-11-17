@@ -18,13 +18,16 @@ Options:
   -p TOP_P --top-p TOP_P                    设置top-p
   --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 250]
 """
-
 import sys
 import tiktoken
 import docopt
 
 from chatgpt_cli.version import VERSION
 from chatgpt_cli.client import client
+from chatgpt_cli.settings import *
+
+
+logger = get_logger(__name__, 'openai-robot.log')
 
 
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):
@@ -32,7 +35,7 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
-        print("Warning: model not found. Using cl100k_base encoding.")
+        logger.warning("Warning: model not found. Using cl100k_base encoding.")
         encoding = tiktoken.get_encoding("cl100k_base")
     if model in {
         "gpt-3.5-turbo-0613",
@@ -50,10 +53,10 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
         tokens_per_message = 4  # every message follows <|start|>{role/name}\n{content}<|end|>\n
         tokens_per_name = -1  # if there's a name, the role is omitted
     elif "gpt-3.5-turbo" in model:
-        print("Warning: gpt-3.5-turbo may update over time. Returning num tokens assuming gpt-3.5-turbo-0613.")
+        logger.warning("Warning: gpt-3.5-turbo may update over time. Returning num tokens assuming gpt-3.5-turbo-0613.")
         return num_tokens_from_messages(messages, model="gpt-3.5-turbo-0613")
     elif "gpt-4" in model:
-        print("Warning: gpt-4 may update over time. Returning num tokens assuming gpt-4-0613.")
+        logger.warning("Warning: gpt-4 may update over time. Returning num tokens assuming gpt-4-0613.")
         return num_tokens_from_messages(messages, model="gpt-4-0613")
     else:
         raise NotImplementedError(
@@ -81,7 +84,7 @@ def main():
     """
     # 分析输入参数
     args = docopt.docopt(__doc__)
-    print(args)
+    # print(args)
 
     version = args['--version']
     if version:
@@ -117,7 +120,7 @@ def main():
         # print(user_input_all)
         # 删除输入前后的空白字符。
         user_input = '\n'.join(user_input_all)
-        # print(user_input)
+        logger.info('Q:\n%s', user_input)
         if not user_input:
             continue
 
@@ -144,6 +147,7 @@ def main():
         conversation.append({"role": "assistant", "content": response.choices[0].message.content})
         conv_history_tokens = num_tokens_from_messages(conversation)
         print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{response.choices[0].message.content}\033[0m\n")
+        logger.info("\nA:\n%s", response.choices[0].message.content)
 
 
 if __name__ == '__main__':
