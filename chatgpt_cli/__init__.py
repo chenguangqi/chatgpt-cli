@@ -1,1 +1,3 @@
+import ansicon
 
+ansicon.load()

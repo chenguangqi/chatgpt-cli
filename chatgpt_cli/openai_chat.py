@@ -1,12 +1,17 @@
 """OpenAI 命令行工具。
 
+在运行之前，请指定下面的环境变量参数:
+OPENAI_API_VERSION
+AZURE_OPENAI_API_KEY
+AZURE_OPENAI_ENDPOINT
+
 Usage: openai-chat <message>
 """
 
 import sys
 import docopt
 from chatgpt_cli.role import Role
-from chatgpt_cli.settings import client
+from chatgpt_cli.client import client
 
 
 def chat(messages, model='gpt-35-turbo-16k'):

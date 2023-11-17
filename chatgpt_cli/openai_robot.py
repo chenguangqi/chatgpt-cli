@@ -1,6 +1,11 @@
 """一个使用OpenAI API的聊天机器人。
 输入完成提示语后，使用Ctrl-Z, Enter发送。
 
+在运行之前，请指定下面的环境变量参数:
+OPENAI_API_VERSION
+AZURE_OPENAI_API_KEY
+AZURE_OPENAI_ENDPOINT
+
 Usage:
   openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS]
   openai-robot [-h | --help]
@@ -18,8 +23,8 @@ import sys
 import tiktoken
 import docopt
 
-from chatgpt_cli.settings import client
 from chatgpt_cli.version import VERSION
+from chatgpt_cli.client import client
 
 
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):

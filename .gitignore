@@ -5,7 +5,6 @@ __pycache__
 /*.egg-info
 /.idea
 
-/config.ini
 /*.log
 /prompts/
 /chatgpt_cli/tests/
