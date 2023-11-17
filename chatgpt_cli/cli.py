@@ -2,7 +2,6 @@
 import time
 import logging
 import openai
-import ansicon
 
 from .settings import *
 from .role import Role
@@ -30,7 +29,6 @@ usage = """\
 目前支持的特殊命令列表:
     @help                        显示帮助信息
     @exit                        退出程序
-    @ansicon                     开启或关闭色彩模式
     @new session <session_name>  创建一个新的会话
     @reset session               重置会话
     @file <file_name>            获取指定文件的内容作为提示语"""
@@ -89,13 +87,13 @@ def handler_cmd(cmd):
     elif cmd.startswith("new session"):
         current_session = cmd[11:].strip()
         current_count = 0
-    elif cmd.startswith('ansicon'):
-        if ansicon.loaded():
-            ansicon.unload()
-            print('Unload ansicon')
-        else:
-            ansicon.load()
-            print('Load ansicon')
+    # elif cmd.startswith('ansicon'):
+    #     if ansicon.loaded():
+    #         ansicon.unload()
+    #         print('Unload ansicon')
+    #     else:
+    #         ansicon.load()
+    #         print('Load ansicon')
     elif cmd.startswith('help'):
         print(usage)
     elif cmd.startswith('file '):
@@ -145,7 +143,7 @@ def text_ui_with_context():
         content = current_file_content or content
         if content:
             current_messages.append(Role.user.message(content))
-            completion = openai.chat.completions.create(model=model, messages=current_messages[-include_history_count:])
+            completion = client.chat.completions.create(model=model, messages=current_messages[-include_history_count:])
             answer = completion.choices[0].message.content
             current_count += 1
             total_tokens = completion.usage.total_tokens
