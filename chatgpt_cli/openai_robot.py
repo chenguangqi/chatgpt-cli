@@ -1,7 +1,24 @@
+"""一个使用OpenAI API的聊天机器人。
+
+Usage:
+  openai-robot
+  openai-robot [-t temperature | --temperature=temperature]
+  openai-robot [-h | --help]
+  openai-robot [-v | --version]
+
+Options:
+  -v --version                              显示版本信息
+  -h --help                                 显示该帮助信息
+  -t temperature --temperature=temperature  设置温度
+
+"""
+
 import sys
 import tiktoken
+import docopt
 
 from chatgpt_cli.settings import client
+from chatgpt_cli.version import VERSION
 
 
 system_message = {"role": "system", "content": "You are a helpful assistant."}
@@ -54,17 +71,38 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
 
 
 def main():
+    # 分析输入参数
+    args = docopt.docopt(__doc__)
+    # print(args)
+
+    version = args['--version']
+    if version:
+        print('openai-robot', VERSION)
+        sys.exit(0)
+
+    temperature = args['--temperature']
+    temperature = float(temperature) if temperature else None
+
     while True:
         conv_history_tokens = num_tokens_from_messages(conversation)
 
-        try:
-            user_input = input(f"\033[33mQ({conv_history_tokens}):\033[0m")
-        except KeyboardInterrupt:
-            # 处理键盘中断。
-            sys.exit(1)
+        user_input_all = []
+        print(f"\033[33mQ({conv_history_tokens}):\033[0m", end='')
+        while True:
+            try:
+                user_input = input()
+                # print(bytes(user_input, encoding='UTF-8'))
+                user_input_all.append(user_input)
+            except KeyboardInterrupt:
+                # 处理键盘中断。
+                sys.exit(1)
+            except EOFError:
+                break
 
+        # print(user_input_all)
         # 删除输入前后的空白字符。
-        user_input = user_input.strip()
+        user_input = '\n'.join(user_input_all)
+        # print(user_input)
         if not user_input:
             continue
 
@@ -83,12 +121,13 @@ def main():
         response = client.chat.completions.create(
             model="gpt-35-turbo",  # model = "deployment_name".
             messages=conversation,
-            temperature=0.7,
+            temperature=temperature,
             max_tokens=max_response_tokens
         )
 
         conversation.append({"role": "assistant", "content": response.choices[0].message.content})
-        print(f"\n\033[35m{response.choices[0].message.content}\033[0m\n")
+        conv_history_tokens = num_tokens_from_messages(conversation)
+        print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{response.choices[0].message.content}\033[0m\n")
 
 
 if __name__ == '__main__':
