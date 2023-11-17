@@ -22,9 +22,6 @@ from chatgpt_cli.settings import client
 from chatgpt_cli.version import VERSION
 
 
-
-
-
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):
     """Return the number of tokens used by a list of messages."""
     try:
@@ -41,7 +38,7 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
         "gpt-4-32k-0314",
         "gpt-4-0613",
         "gpt-4-32k-0613",
-        }:
+    }:
         tokens_per_message = 3
         tokens_per_name = 1
     elif model == "gpt-3.5-turbo-0301":
@@ -69,6 +66,14 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
 
 
 def main():
+    """
+    温度越低，得到的结果越精确
+    在大多数情况下，将 API 温度设置为 0 或接近 0（如 0.1 或 0.2）往往会得到更好的结果。 在 GPT-3 模型中，
+    较高的温度可以提供有用的创意结果和随机结果，Codex 模型则不同，较高温度可能会导致收到十分随机或难以预测的响应。
+    如果需要 Codex 提供不同的潜在结果，请从 0 开始，然后向上递增 0.1，直到找到合适的变体。
+
+    :return:
+    """
     # 分析输入参数
     args = docopt.docopt(__doc__)
     print(args)
