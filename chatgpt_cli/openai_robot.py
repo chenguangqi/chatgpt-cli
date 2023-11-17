@@ -124,6 +124,10 @@ def main():
         if not user_input:
             continue
 
+        if user_input.startswith('@system'):
+            conversation[0] = {"role": "system", "content": user_input[8:].strip()}
+            continue
+
         conversation.append({"role": "user", "content": user_input})
         conv_history_tokens = num_tokens_from_messages(conversation)
         # print('Tokens:', conv_history_tokens)
