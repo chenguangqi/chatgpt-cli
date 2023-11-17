@@ -1,16 +1,17 @@
 """一个使用OpenAI API的聊天机器人。
+输入完成提示语后，使用Ctrl-Z, Enter发送。
 
 Usage:
-  openai-robot
-  openai-robot [-t temperature | --temperature=temperature]
+  openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS]
   openai-robot [-h | --help]
   openai-robot [-v | --version]
 
 Options:
   -v --version                              显示版本信息
   -h --help                                 显示该帮助信息
-  -t temperature --temperature=temperature  设置温度
-
+  -t TEMPERATURE --temperature=TEMPERATURE  设置温度
+  -p TOP_P --top-p TOP_P                    设置top-p
+  --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 250]
 """
 
 import sys
@@ -21,10 +22,7 @@ from chatgpt_cli.settings import client
 from chatgpt_cli.version import VERSION
 
 
-system_message = {"role": "system", "content": "You are a helpful assistant."}
-max_response_tokens = 250
-token_limit = 4096
-conversation = [system_message]
+
 
 
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):
@@ -73,15 +71,22 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
 def main():
     # 分析输入参数
     args = docopt.docopt(__doc__)
-    # print(args)
+    print(args)
 
     version = args['--version']
     if version:
         print('openai-robot', VERSION)
         sys.exit(0)
 
+    system_message = {"role": "system", "content": "You are a helpful assistant."}
+    max_response_tokens = int(args['--max-tokens'])
+    token_limit = 4096
+    conversation = [system_message]
+
     temperature = args['--temperature']
     temperature = float(temperature) if temperature else None
+    top_p = args['--top-p']
+    top_p = float(top_p) if top_p else None
 
     while True:
         conv_history_tokens = num_tokens_from_messages(conversation)
@@ -122,6 +127,7 @@ def main():
             model="gpt-35-turbo",  # model = "deployment_name".
             messages=conversation,
             temperature=temperature,
+            top_p=top_p,
             max_tokens=max_response_tokens
         )
 
