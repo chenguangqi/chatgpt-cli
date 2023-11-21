@@ -7,7 +7,7 @@ AZURE_OPENAI_API_KEY
 AZURE_OPENAI_ENDPOINT
 
 Usage:
-  openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS]
+  openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS] [--stream]
   openai-robot [-h | --help]
   openai-robot [-v | --version]
 
@@ -101,6 +101,8 @@ def main():
     top_p = args['--top-p']
     top_p = float(top_p) if top_p else None
 
+    stream = args['--stream']
+
     while True:
         conv_history_tokens = num_tokens_from_messages(conversation)
 
@@ -145,13 +147,35 @@ def main():
             messages=conversation,
             temperature=temperature,
             top_p=top_p,
-            max_tokens=max_response_tokens
+            max_tokens=max_response_tokens,
+            stream=stream
         )
 
-        conversation.append({"role": "assistant", "content": response.choices[0].message.content})
-        conv_history_tokens = num_tokens_from_messages(conversation)
-        print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{response.choices[0].message.content}\033[0m\n")
-        logger.info("\nA:\n%s", response.choices[0].message.content)
+        if stream:
+            # 流式内容处理。
+            content = ''
+            for chunk in response:
+                delta = chunk.choices[0].delta
+                # conversation.append({"role": "assistant", "content": response.choices[0].message.content})
+                # if delta.role:
+                #     print(f"\033[35m{delta.role}: \033[0m", end='')
+                if delta.content:
+                    content += delta.content
+                    # print(f"\033[35m{delta.content}\033[0m", end='')
+
+                # if "context" in delta:
+                #     print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{delta.context}\033[0m\n")
+
+            conversation.append({"role": "assistant", "content": content})
+            print(f"\033[36mA({conv_history_tokens}):\033[0m")
+            print(f"\033[35m{content}\033[0m", flush=True)
+            logger.info("\nA:\n%s", content)
+        else:
+            conversation.append({"role": "assistant", "content": response.choices[0].message.content})
+            conv_history_tokens = num_tokens_from_messages(conversation)
+            print(f"\033[36mA({conv_history_tokens}):\033[0m\n")
+            print(f"\033[35m{response.choices[0].message.content}\033[0m\n", flush=True)
+            logger.info("\nA:\n%s", response.choices[0].message.content)
 
 
 if __name__ == '__main__':
