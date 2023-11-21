@@ -91,10 +91,11 @@ def main():
         print('openai-robot', VERSION)
         sys.exit(0)
 
-    system_message = {"role": "system", "content": "You are a helpful assistant."}
+    system_message = None #{"role": "system", "content": "You are a helpful assistant."}
     max_response_tokens = int(args['--max-tokens'])
     token_limit = 4096
-    conversation = [system_message]
+    # conversation = [system_message]
+    conversation = []
 
     temperature = args['--temperature']
     temperature = float(temperature) if temperature else None
@@ -104,9 +105,11 @@ def main():
     stream = args['--stream']
 
     while True:
-        conv_history_tokens = num_tokens_from_messages(conversation)
+        conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
 
         user_input_all = []
+        # if system_message:
+        #     print(system_message.get('content'), flush=True)
         print(f"\033[33mQ({conv_history_tokens}):\033[0m", end='')
         while True:
             try:
@@ -126,25 +129,25 @@ def main():
         if not user_input:
             continue
 
-        if user_input.startswith('@system'):
-            conversation[0] = {"role": "system", "content": user_input[8:].strip()}
+        if user_input.startswith('@system ') and user_input[8:].strip():
+            system_message = {"role": "system", "content": user_input[8:].strip()}
             continue
 
         conversation.append({"role": "user", "content": user_input})
-        conv_history_tokens = num_tokens_from_messages(conversation)
+        conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
         # print('Tokens:', conv_history_tokens)
 
         # 删除多余的谈话记录，保持tokens数不超过最大限制
         while conv_history_tokens + max_response_tokens >= token_limit:
-            # 删除谈话记录中的第2条记录
-            del conversation[1]
+            # 删除谈话记录中的第1条记录
+            del conversation[0]
             # 重新计算当前tokens数
-            conv_history_tokens = num_tokens_from_messages(conversation)
+            conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
 
         # 请求对话补全
         response = client.chat.completions.create(
             model="gpt-35-turbo",  # model = "deployment_name".
-            messages=conversation,
+            messages=[system_message, *conversation] if system_message else conversation,
             temperature=temperature,
             top_p=top_p,
             max_tokens=max_response_tokens,
@@ -172,7 +175,7 @@ def main():
             logger.info("\nA:\n%s", content)
         else:
             conversation.append({"role": "assistant", "content": response.choices[0].message.content})
-            conv_history_tokens = num_tokens_from_messages(conversation)
+            conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
             print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
             print(f"\033[36m{response.choices[0].message.content}\033[0m\n", flush=True)
             logger.info("\nA:\n%s", response.choices[0].message.content)
