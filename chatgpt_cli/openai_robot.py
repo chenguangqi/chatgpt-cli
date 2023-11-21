@@ -21,6 +21,8 @@ Options:
 import sys
 import tiktoken
 import docopt
+import json
+import requests
 
 from chatgpt_cli.version import VERSION
 from chatgpt_cli.client import client
@@ -28,6 +30,9 @@ from chatgpt_cli.settings import *
 
 
 logger = get_logger(__name__, 'openai-robot.log')
+
+
+MODEL = "gpt-35-turbo"
 
 
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):
@@ -71,6 +76,38 @@ def num_tokens_from_messages(messages, model="gpt-35-turbo"):
                 num_tokens += tokens_per_name
     num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
     return num_tokens
+
+
+def get_location_by_ip(ip: str = None):
+    # if ip is None:
+    #     response = requests.get('https://api.ipify.org')
+    #     ip = response.text
+
+    url = 'http://whois.pconline.com.cn/ipJson.jsp?ip=' + ip + '&json=true'
+    response = requests.get(url)
+    result = response.json()
+
+    if result['err'] == 'noprovince':
+        return json.dumps({"当前地址": result['addr']})
+    else:
+        return None
+
+
+get_location_by_ip_func = {
+    "name": "get_location_by_ip_address",
+    "description": "获取当前的地址",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "ip": {
+                "type": "string",
+                "description": "当前网络的IP地址"
+            }
+        },
+        "required": [],
+    }
+}
+
 
 
 def main():
@@ -146,13 +183,51 @@ def main():
 
         # 请求对话补全
         response = client.chat.completions.create(
-            model="gpt-35-turbo",  # model = "deployment_name".
+            model=MODEL,
             messages=[system_message, *conversation] if system_message else conversation,
             temperature=temperature,
             top_p=top_p,
             max_tokens=max_response_tokens,
-            stream=stream
+            stream=stream,
+            # functions=[get_location_by_ip_func],
+            # function_call="auto"
         )
+
+        # response_message = response.choices[0].message
+        # # Step 2: 确认 GPT 是否调用外部函数
+        # if response_message.get("function_call"):
+        #     # Step 3: 调用外部函数，获取结果
+        #     available_functions = {
+        #         "get_location_by_ip": get_location_by_ip,
+        #     }
+        #     function_name = response_message["function_call"]["name"]
+        #     # 获取匹配到的外部函数
+        #     function_to_call = available_functions[function_name]
+        #     # 获取外部函数的入参信息
+        #     function_args = json.loads(response_message["function_call"]["arguments"])
+        #     # 调用外部函数
+        #     function_response = function_to_call(
+        #         ip=function_args.get("ip")
+        #     )
+        #
+        #     # Step 4: 将原始请求和外部函数响应的结果信息发送到 GPT
+        #     conversation.append(response_message)
+        #     conversation.append(
+        #         {
+        #             "role": "function",
+        #             "name": function_name,
+        #             "content": function_response,
+        #         }
+        #     )
+        #     # 进行二次请求 GPT
+        #     second_response = client.chat.completions.create(
+        #         model=MODEL,
+        #         messages=conversation,
+        #     )
+        #     print("second_response=" + json.dumps(second_response))
+        #     response = second_response
+        # else:
+        #     print("response=" + json.dumps(response))
 
         if stream:
             # 流式内容处理。
@@ -179,6 +254,9 @@ def main():
             print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
             print(f"\033[36m{response.choices[0].message.content}\033[0m\n", flush=True)
             logger.info("\nA:\n%s", response.choices[0].message.content)
+
+
+
 
 
 if __name__ == '__main__':
