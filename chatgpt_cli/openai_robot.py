@@ -167,14 +167,14 @@ def main():
                 #     print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{delta.context}\033[0m\n")
 
             conversation.append({"role": "assistant", "content": content})
-            print(f"\033[36mA({conv_history_tokens}):\033[0m")
-            print(f"\033[35m{content}\033[0m", flush=True)
+            print(f"\033[34mA({conv_history_tokens}):\033[0m")
+            print(f"\033[36m{content}\033[0m", flush=True)
             logger.info("\nA:\n%s", content)
         else:
             conversation.append({"role": "assistant", "content": response.choices[0].message.content})
             conv_history_tokens = num_tokens_from_messages(conversation)
-            print(f"\033[36mA({conv_history_tokens}):\033[0m\n")
-            print(f"\033[35m{response.choices[0].message.content}\033[0m\n", flush=True)
+            print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
+            print(f"\033[36m{response.choices[0].message.content}\033[0m\n", flush=True)
             logger.info("\nA:\n%s", response.choices[0].message.content)
 
 
