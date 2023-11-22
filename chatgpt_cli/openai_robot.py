@@ -1,6 +1,10 @@
 """一个使用OpenAI API的聊天机器人。
 输入完成提示语后，使用Ctrl-Z, Enter发送。
 
+下面是一些特殊提示:
+@system <message>   设置system角色的提示
+@reset              清空历史对话记录
+
 在运行之前，请指定下面的环境变量参数:
 OPENAI_API_VERSION
 AZURE_OPENAI_API_KEY
@@ -109,7 +113,6 @@ get_location_by_ip_func = {
 }
 
 
-
 def main():
     """
     温度越低，得到的结果越精确
@@ -151,8 +154,24 @@ def main():
         while True:
             try:
                 user_input = input()
+                user_input = user_input.strip()
+                if user_input and user_input[0] == '@':
+                    subcommand = user_input.split(' ', 1)
+                    if subcommand[0] == '@system':
+                        if len(subcommand) > 1:
+                            system_message = {"role": "system", "content": subcommand[1].strip()}
+                        else:
+                            system_message = {"role": "system", "content": ""}
+                    elif subcommand[0] == '@reset':
+                        conversation = []
+                    elif subcommand[0].startswith('@'):
+                        print('不支持的命令。')
+
+                    # 执行命令的处理，继续等待输入。
+                    break
+
                 # print(bytes(user_input, encoding='UTF-8'))
-                user_input_all.append(user_input)
+                user_input_all.append(user_input.strip())
             except KeyboardInterrupt:
                 # 处理键盘中断。
                 sys.exit(1)
@@ -162,12 +181,8 @@ def main():
         # print(user_input_all)
         # 删除输入前后的空白字符。
         user_input = '\n'.join(user_input_all)
-        logger.info('Q:\n%s', user_input)
         if not user_input:
-            continue
-
-        if user_input.startswith('@system ') and user_input[8:].strip():
-            system_message = {"role": "system", "content": user_input[8:].strip()}
+            logger.info('Q:\n%s', user_input)
             continue
 
         conversation.append({"role": "user", "content": user_input})
@@ -254,9 +269,6 @@ def main():
             print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
             print(f"\033[36m{response.choices[0].message.content}\033[0m\n", flush=True)
             logger.info("\nA:\n%s", response.choices[0].message.content)
-
-
-
 
 
 if __name__ == '__main__':
