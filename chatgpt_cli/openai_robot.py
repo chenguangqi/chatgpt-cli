@@ -20,7 +20,7 @@ Options:
   -h --help                                 显示该帮助信息
   -t TEMPERATURE --temperature=TEMPERATURE  设置温度
   -p TOP_P --top-p TOP_P                    设置top-p
-  --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 250]
+  --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 2048]
 """
 import sys
 import tiktoken
@@ -36,7 +36,7 @@ from chatgpt_cli.settings import *
 logger = get_logger(__name__, 'openai-robot.log')
 
 
-MODEL = "gpt-35-turbo"
+MODEL = "gpt-35-turbo-16k"
 
 
 def num_tokens_from_messages(messages, model="gpt-35-turbo"):
@@ -155,7 +155,7 @@ def main():
             try:
                 user_input = input()
                 user_input = user_input.strip()
-                if user_input and user_input[0] == '@':
+                if user_input and not user_input_all and user_input[0] == '@':
                     subcommand = user_input.split(' ', 1)
                     if subcommand[0] == '@system':
                         if len(subcommand) > 1:
@@ -171,7 +171,8 @@ def main():
                     break
 
                 # print(bytes(user_input, encoding='UTF-8'))
-                user_input_all.append(user_input.strip())
+                if user_input:
+                    user_input_all.append(user_input)
             except KeyboardInterrupt:
                 # 处理键盘中断。
                 sys.exit(1)
@@ -180,12 +181,12 @@ def main():
 
         # print(user_input_all)
         # 删除输入前后的空白字符。
-        user_input = '\n'.join(user_input_all)
-        if not user_input:
-            logger.info('Q:\n%s', user_input)
+        user_message = '\n'.join(user_input_all)
+        if not user_message:
+            logger.info('Q:\n%s', user_message)
             continue
 
-        conversation.append({"role": "user", "content": user_input})
+        conversation.append({"role": "user", "content": user_message})
         conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
         # print('Tokens:', conv_history_tokens)
 
@@ -247,21 +248,21 @@ def main():
         if stream:
             # 流式内容处理。
             content = ''
+            print(f"\033[34mA({conv_history_tokens}):\033[0m")
+            print(f"\033[36m{content}", flush=True)
             for chunk in response:
                 delta = chunk.choices[0].delta
-                # conversation.append({"role": "assistant", "content": response.choices[0].message.content})
                 # if delta.role:
                 #     print(f"\033[35m{delta.role}: \033[0m", end='')
                 if delta.content:
                     content += delta.content
-                    # print(f"\033[35m{delta.content}\033[0m", end='')
+                    print(delta.content, end='', flush=True)
 
                 # if "context" in delta:
                 #     print(f"\033[36mA({conv_history_tokens}):\033[0m\n\033[35m{delta.context}\033[0m\n")
 
             conversation.append({"role": "assistant", "content": content})
-            print(f"\033[34mA({conv_history_tokens}):\033[0m")
-            print(f"\033[36m{content}\033[0m", flush=True)
+            print(f"\033[0m", flush=True)
             logger.info("\nA:\n%s", content)
         else:
             conversation.append({"role": "assistant", "content": response.choices[0].message.content})
