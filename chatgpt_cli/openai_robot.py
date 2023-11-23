@@ -14,7 +14,7 @@ Usage:
 Options:
   -v --version                              显示版本信息
   -h --help                                 显示该帮助信息
-  -t TEMPERATURE --temperature=TEMPERATURE  设置温度
+  -t TEMPERATURE --temperature=TEMPERATURE  设置温度 [default: 0]
   -p TOP_P --top-p TOP_P                    设置top-p
   --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 2048]
 
@@ -125,7 +125,6 @@ def main():
     """
     # 分析输入参数
     args = docopt.docopt(__doc__)
-    # print(args)
 
     version = args['--version']
     if version:
