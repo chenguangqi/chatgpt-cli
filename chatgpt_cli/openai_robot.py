@@ -132,7 +132,7 @@ def main():
         print('openai-robot', VERSION)
         sys.exit(0)
 
-    system_message = None #{"role": "system", "content": "You are a helpful assistant."}
+    system_message = {"role": "system", "content": "You are a helpful assistant."}
     max_response_tokens = int(args['--max-tokens'])
     token_limit = 4096
     # conversation = [system_message]
