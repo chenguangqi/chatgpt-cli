@@ -6,11 +6,6 @@
 @reset              清空历史对话记录
 @show               显示历史对话记录
 
-在运行之前，请指定下面的环境变量参数:
-OPENAI_API_VERSION
-AZURE_OPENAI_API_KEY
-AZURE_OPENAI_ENDPOINT
-
 Usage:
   openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS] [--stream]
   openai-robot [-h | --help]
@@ -22,6 +17,12 @@ Options:
   -t TEMPERATURE --temperature=TEMPERATURE  设置温度
   -p TOP_P --top-p TOP_P                    设置top-p
   --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 2048]
+
+Environment Variables:
+  在运行之前，请指定下面的环境变量参数:
+  OPENAI_API_VERSION
+  AZURE_OPENAI_API_KEY
+  AZURE_OPENAI_ENDPOINT
 """
 import sys
 import tiktoken
@@ -30,7 +31,6 @@ import json
 import requests
 
 from chatgpt_cli.version import VERSION
-from chatgpt_cli.client import client
 from chatgpt_cli.settings import *
 
 
@@ -144,6 +144,12 @@ def main():
     top_p = float(top_p) if top_p else None
 
     stream = args['--stream']
+
+    from chatgpt_cli.client import client
+    if not client:
+        print(docopt.printable_usage(__doc__))
+
+        sys.exit(1)
 
     while True:
         conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)

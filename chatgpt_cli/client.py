@@ -2,13 +2,13 @@ import sys
 import os
 import openai
 
-api_version = os.environ.get("OPENAI_API_VERSION") or '2023-05-15'
+openai.api_version = os.environ.get("OPENAI_API_VERSION") or '2023-05-15'
 
+client = None
 try:
-    client = openai.AzureOpenAI(api_version=api_version)
+    client = openai.AzureOpenAI(api_version=openai.api_version)
 except openai.OpenAIError as ex:
-    print(ex)
-    sys.exit(-1)
+    print(ex, flush=True)
 
 
 __all__ = ['client']
