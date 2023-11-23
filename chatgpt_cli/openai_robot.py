@@ -4,6 +4,7 @@
 下面是一些特殊提示:
 @system <message>   设置system角色的提示
 @reset              清空历史对话记录
+@show               显示历史对话记录
 
 在运行之前，请指定下面的环境变量参数:
 OPENAI_API_VERSION
@@ -164,10 +165,12 @@ def main():
                             system_message = {"role": "system", "content": ""}
                     elif subcommand[0] == '@reset':
                         conversation = []
+                    elif subcommand[0] == '@show':
+                        print([system_message, *conversation] if system_message else conversation)
                     elif subcommand[0].startswith('@'):
                         print('不支持的命令。')
 
-                    # 执行命令的处理，继续等待输入。
+                    # 执行命令的处理后，继续等待输入。
                     break
 
                 # print(bytes(user_input, encoding='UTF-8'))
