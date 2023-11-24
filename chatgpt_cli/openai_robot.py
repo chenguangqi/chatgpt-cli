@@ -7,7 +7,7 @@
 @show               显示历史对话记录
 
 Usage:
-  openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS] [--stream]
+  openai-robot [-t TEMPERATURE | --temperature=TEMPERATURE] [-p TOP_P | --top-p TOP_P] [--max-tokens MAX_TOKENS] [--stream] [--once]
   openai-robot [-h | --help]
   openai-robot [-v | --version]
 
@@ -17,6 +17,8 @@ Options:
   -t TEMPERATURE --temperature=TEMPERATURE  设置温度 [default: 0]
   -p TOP_P --top-p TOP_P                    设置top-p
   --max-tokens MAX_TOKENS                   补全回复的最大tokens数 [default: 2048]
+  --stream                                  开始流式响应
+  --once                                    不包含对话历史记录
 
 Environment Variables:
   在运行之前，请指定下面的环境变量参数:
@@ -191,9 +193,12 @@ def main():
         # 删除输入前后的空白字符。
         user_message = '\n'.join(user_input_all)
         if not user_message:
-            logger.info('Q:\n%s', user_message)
             continue
 
+        logger.info('Q:\n%s', user_message)
+
+        if args['--once']:
+            conversation = []
         conversation.append({"role": "user", "content": user_message})
         conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
         # print('Tokens:', conv_history_tokens)
