@@ -136,8 +136,8 @@ def main():
     system_message = {"role": "system", "content": "You are a helpful assistant."}
     max_response_tokens = int(args['--max-tokens'])
     token_limit = 4096
-    # conversation = [system_message]
-    conversation = []
+    conversation = [system_message]
+    # conversation = []
 
     temperature = args['--temperature']
     temperature = float(temperature) if temperature else None
@@ -153,7 +153,7 @@ def main():
         sys.exit(1)
 
     while True:
-        conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
+        conv_history_tokens = num_tokens_from_messages(conversation)
 
         user_input_all = []
         # if system_message:
@@ -167,13 +167,11 @@ def main():
                     subcommand = user_input.split(' ', 1)
                     if subcommand[0] == '@system':
                         if len(subcommand) > 1:
-                            system_message = {"role": "system", "content": subcommand[1].strip()}
-                        else:
-                            system_message = {"role": "system", "content": ""}
+                            conversation.append({"role": "system", "content": subcommand[1].strip()})
                     elif subcommand[0] == '@reset':
                         conversation = []
                     elif subcommand[0] == '@show':
-                        print([system_message, *conversation] if system_message else conversation)
+                        print(conversation)
                     elif subcommand[0].startswith('@'):
                         print('不支持的命令。')
 
@@ -200,7 +198,7 @@ def main():
         if args['--once']:
             conversation = []
         conversation.append({"role": "user", "content": user_message})
-        conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
+        conv_history_tokens = num_tokens_from_messages(conversation)
         # print('Tokens:', conv_history_tokens)
 
         # 删除多余的谈话记录，保持tokens数不超过最大限制
@@ -208,12 +206,12 @@ def main():
             # 删除谈话记录中的第1条记录
             del conversation[0]
             # 重新计算当前tokens数
-            conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
+            conv_history_tokens = num_tokens_from_messages(conversation)
 
         # 请求对话补全
         response = client.chat.completions.create(
             model=MODEL,
-            messages=[system_message, *conversation] if system_message else conversation,
+            messages=conversation,
             temperature=temperature,
             top_p=top_p,
             max_tokens=max_response_tokens,
@@ -279,7 +277,7 @@ def main():
             logger.info("\nA:\n%s", content)
         else:
             conversation.append({"role": "assistant", "content": response.choices[0].message.content})
-            conv_history_tokens = num_tokens_from_messages([system_message, *conversation] if system_message else conversation)
+            conv_history_tokens = num_tokens_from_messages(conversation)
             print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
             print(f"\033[36m{response.choices[0].message.content}\033[0m\n", flush=True)
             logger.info("\nA:\n%s", response.choices[0].message.content)
