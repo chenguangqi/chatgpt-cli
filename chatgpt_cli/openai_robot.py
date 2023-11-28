@@ -255,7 +255,6 @@ def main():
         #     response = second_response
         # else:
         #     print("response=" + json.dumps(response))
-
         if stream:
             # 流式内容处理。
             content = ''
@@ -276,6 +275,10 @@ def main():
             print(f"\033[0m", flush=True)
             logger.info("\nA:\n%s", content)
         else:
+            if response.choices[0].finish_reason == 'content_filter':
+                print("内容被过滤了。")
+                continue
+
             conversation.append({"role": "assistant", "content": response.choices[0].message.content})
             conv_history_tokens = num_tokens_from_messages(conversation)
             print(f"\033[34mA({conv_history_tokens}):\033[0m\n")
